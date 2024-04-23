@@ -3,19 +3,47 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
-const Login = () => {
+const Login = ({data}) => {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
+
+  const [registrationNumber, setRegistrationNumber] = useState('');
+  const [Password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const router = useRouter();
+
+
+
+
+  const handleLogin = (e) => {
     e.preventDefault();
+    const user = data.find(
+      (item) =>
+        item.attributes.reg_Num == registrationNumber &&
+        item.attributes.Password == Password
+    );
+    if (!user) {
+      setErrorMessage('Invalid registration number or password.');
+    } else {
+      router.push('/FrontPage');
+    }
   };
+
+
+
+
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  // };
 
   return (
     <div className="bg-white h-screen flex justify-center items-center border border-gray-300">
       <div className="flex-1 max-w-lg w-full mx-auto">
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form method="post" onSubmit={(e) => handleLogin(e)} className="space-y-6">
           <div className="flex items-center justify-center">
             <Image src="/logo.svg" alt="Logo" width={150} height={75} />
           </div>
@@ -25,19 +53,17 @@ const Login = () => {
             </p>
           </div>
           <div>
-            <label htmlFor="email" className="block text-xl font-medium text-gray-700">
-              Email
+            <label className="block text-xl font-medium text-gray-700">
+              Registration Number
             </label>
             <div className="mt-1">
               <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
+                id="registrationNumber"
+                name="registrationNumber"
                 required
                 className="appearance-none block w-full px-5 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={registrationNumber}
+                onChange={(e) => setRegistrationNumber(e.target.value)}
               />
             </div>
           </div>
@@ -48,26 +74,28 @@ const Login = () => {
             </label>
             <div className="mt-1">
               <input
-                id="password"
+              id="password"
                 name="password"
                 type="password"
                 autoComplete="current-password"
                 required
                 className="appearance-none block w-full px-5 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                value={password}
+                value={Password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
           </div>
 
+          <div className="text-red-500">{errorMessage}</div>
+
           <div>
-            <Link
-             href="FrontPage"
+            <button
+              onClick={(e) => handleLogin(e)}
               type="submit"
-              className="w-full flex justify-center py-3 px-5 border border-transparent rounded-md shadow-sm text-xl font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="w-full flex justify-center py-3 px-5 border border-transparent rounded-md shadow-sm text-xl font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               Sign in
-            </Link>
+            </button>
           </div>
         </form>
       </div>
