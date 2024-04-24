@@ -187,7 +187,7 @@ function New_patient() {
     {/* </div>   */}
     <div className="flex justify-center w-full">
     <button className="w-20 h-10 m-4 bg-blue-500 hover:bg-blue-400 text-white font-bold py-1 px-1 border-b-4 border-blue-700 hover:border-blue-500 rounded ">Save</button>
-    <Link href='ManageApp'className="w-30 h-10 m-4 bg-blue-500 hover:bg-blue-400 text-white font-bold py-1 px-3 border-b-4 border-blue-700 hover:border-blue-500 rounded ">Save & Manage</Link>
+    <Link href='MakeApp'className="w-30 h-10 m-4 bg-blue-500 hover:bg-blue-400 text-white font-bold py-1 px-3 border-b-4 border-blue-700 hover:border-blue-500 rounded ">Save & Make</Link>
   </div>
               </div>
               </form>
