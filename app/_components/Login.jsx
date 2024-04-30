@@ -1,21 +1,15 @@
 "use client"
-
 import React, { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import Swal from 'sweetalert2'
 
 const Login = ({data}) => {
-  const [email, setEmail] = useState('');
 
 
   const [registrationNumber, setRegistrationNumber] = useState('');
   const [Password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-
   const router = useRouter();
-
-
 
 
   const handleLogin = (e) => {
@@ -26,9 +20,14 @@ const Login = ({data}) => {
         item.attributes.Password == Password
     );
     if (!user) {
-      setErrorMessage('Invalid registration number or password.');
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Invalid registration number or password.",
+      });
     } else {
-      router.push('/FrontPage');
+      router.push(`/FrontPage/${user?.attributes?.reg_Num}`);
+      Swal.fire("Hello doctor");
     }
   };
 
@@ -86,7 +85,7 @@ const Login = ({data}) => {
             </div>
           </div>
 
-          <div className="text-red-500">{errorMessage}</div>
+          {/* <div className="text-red-500">{errorMessage}</div> */}
 
           <div>
             <button

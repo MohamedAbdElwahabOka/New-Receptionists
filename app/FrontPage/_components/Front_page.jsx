@@ -8,7 +8,11 @@ import doctor from '/public/doctor.png'
 import addapp from '/public/appointment-icon-png-27.jpg'
 import list from '/public/list-icon-png-19.jpg';
 
-export default function Front_page(){
+export default function Front_page({ReceptionistRegNum}){
+
+  
+
+  console.log(ReceptionistRegNum)
     return(
         <div className="min-h-screen bg-gray-100 p-10">
         <div className="flex items-center space-x-4 ">
