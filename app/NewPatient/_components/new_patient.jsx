@@ -27,24 +27,25 @@ const New_patient = () => {
   // const [VerifyPassword, setVerifyPassword] = useState('');
   // const [UploadLicense, setUploadLicense] = useState('');
   // const [Profileimage, setProfileimage] = useState('');
-
+  var reg = 'p'+300
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    
+    reg = reg+2
     const data = {
       data:{
         Name : Name,
         Email : Email,
         phone : Phone,
         Birth_Date : Birth_Date,
-        reg_Num : "P27430"+1 ,
+        reg_Num : reg ,
         Governorate: Governorate,
         NationalId : NationalId,
         City : City,
         Street : Street,
         Gender : Gender,
         Blood_Type : Blood_Type,
-        Password : "P27430"+1 ,
+        Password : reg ,
         // LicenseImg: UploadLicense
       }
     }
