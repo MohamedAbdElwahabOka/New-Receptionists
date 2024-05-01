@@ -1,5 +1,5 @@
-import Cardiology from './_components/doctors';
-import Sidebar from '../_components/Sidebar'
+import Cardiology from '../doctors';
+import Sidebar from '../../../_components/Sidebar'
 
 export default function page(){
     return(

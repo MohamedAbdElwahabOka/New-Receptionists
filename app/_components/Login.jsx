@@ -27,7 +27,8 @@ const Login = ({data}) => {
       });
     } else {
       router.push(`/FrontPage/${user?.attributes?.reg_Num}`);
-      Swal.fire("Hello doctor");
+      // router.push(`/FrontPage/${user?.id}`);
+      Swal.fire(`Hello ${user?.attributes?.Name}!`, `Welcome to Telegy Care!`, `success`);
     }
   };
 

@@ -1,5 +1,5 @@
-import Manage_app from './_components/Manage_app';
-import Sidebar from '../_components/Sidebar'
+import Manage_app from '../_components/Manage_app';
+import Sidebar from '../../_components/Sidebar'
 export default function page(){
     return(
         <div>
