@@ -1,4 +1,4 @@
-  "use client"
+"use client"
 import { useState } from 'react';
 import Image from "next/image";
 import Link from 'next/link';
@@ -10,8 +10,18 @@ import blood from '/public/blood.png';
 import bd from '/public/th.jpg';
 import gender from '/public/Gender-Symbol-PNG.png';
 import PostPatient from '../../_Utils/PostPatient';
+import logo from '/public/logo.svg'
+import Swal from 'sweetalert2'
+import { useRef } from 'react';
+import { useRouter } from 'next/navigation';
 
-const New_patient = () => {
+const New_patient = ({reg}) => {
+
+
+  console.log(reg)
+// Inside your component
+  const router  = useRouter();
+  const formRef = useRef();
   const [Name, setName] = useState('');
   const [Email, setEmail] = useState('');
   const [Phone, setPhone] = useState('');
@@ -27,130 +37,168 @@ const New_patient = () => {
   // const [VerifyPassword, setVerifyPassword] = useState('');
   // const [UploadLicense, setUploadLicense] = useState('');
   // const [Profileimage, setProfileimage] = useState('');
-  var reg = 'p'+300
+  
   const handleSubmit = (e) => {
     e.preventDefault();
+    formRef.current.reset(); 
     
-    reg = reg+2
     const data = {
       data:{
+        reg_Num : "P55655" ,
+        Password : "P56555",
         Name : Name,
         Email : Email,
         phone : Phone,
         Birth_Date : Birth_Date,
-        reg_Num : reg ,
         Governorate: Governorate,
         NationalId : NationalId,
         City : City,
         Street : Street,
         Gender : Gender,
-        Blood_Type : Blood_Type,
-        Password : reg ,
-        // LicenseImg: UploadLicense
+        Blood_Type : Blood_Type
       }
     }
-    PostPatient.addPatient(data).then((res) => {
-      console.log('done');
-      console.log(res);
-    }).catch((error) => {
-      console.log(error);
-    });
+  //   PostPatient.addPatient(data).then((res) => {
+  //     console.log('done');
+  //     console.log(res);
+  //   }).catch((error) => {
+  //     console.log(error);
+  //   });
+  // };
+  let timerInterval;
+  Swal.fire({
+    title: "Register now",
+    html: "I will close in <b></b> milliseconds.",
+    timer: 4000,
+    timerProgressBar: true,
+    didOpen: () => {
+      Swal.showLoading();
+      const timer = Swal.getPopup().querySelector("b");
+      timerInterval = setInterval(() => {
+        timer.textContent = `${Swal.getTimerLeft()}`;
+      }, 100);
+    },
+    willClose: () => {
+      clearInterval(timerInterval);
+    }
+  }).then((result) => {
+    /* Read more about handling dismissals below */
+    if (result.dismiss === Swal.DismissReason.timer) {
+     
+    }
+  });
+  PostPatient.addPatient(data).then((res) => {
+  console.log(res)
+  Swal.fire({
+    title: "Congratulations",
+    text: "Your account has been registered successfully",
+    icon: "success"
+  });
+  // sendEmail();
+}).catch((error) => {
+  console.log(error)
+  Swal.fire({
+    icon: "error",
+    title: "Oops...",
+    text: "There was an error recording, try again"
+  });
+});
 
-  };
+};
+
+  
 
   return (
-    <div className="flex h-screen">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold mb-6 text-blue-600">Enter New Patient Details</h2>
-        <form onSubmit={(e)=> handleSubmit(e)} >
-          <div className="flex items-center">
-            <Image className='m-3' src={name} width={20} height={20}/>
-             <label htmlFor="name" className="mr-2">Full Name:</label>
-             <input 
-             id="name" 
-             placeholder="Full Name" 
-             className="border rounded-md p-2 m-2"
-             required 
-             value={Name}
-             onChange={(e) => setName(e.target.value)}/>
-            </div>
-
-            <div className="flex items-center w-80">
-            <Image className='m-3' src={phone} width={20} height={20}/>
-            <label htmlFor="phone-number" className="mr-2">Phone Number:</label>
-              <input 
-              id="phone-number" 
-              placeholder="+20 (00) 000-00-00" 
-              type="tel" 
-              className="flex-1 border rounded-md p-2 m-2"
-              required 
-              value={Phone}
-              onChange={(e) => setPhone(e.target.value)}
-              />
-            </div>
-
-            
-            <div className="flex items-center">
-            <Image className='m-3' src={email} width={20} height={20}/>
-             <label htmlFor="email" className="mr-2">E-mail:</label>
-             <input 
-             id="email" 
-             placeholder="Email" 
-             type="email" 
-             className="border rounded-md p-2 m-2" 
+  <div className="max-w-4xl mx-auto font-[sans-serif] text-[#333] p-6">
+      <div className="text-center mb-16">
+        <a href="javascript:void(0)"><Image
+        width={50} height={50}
+          src={logo} alt="logo" className='inline-block' />
+        </a>
+        <h4 className="text-base font-semibold mt-3">Enter New Patient Details</h4>
+      </div>
+      <form ref={formRef}>
+        <div className="grid sm:grid-cols-2 gap-y-7 gap-x-12">
+          <div>
+            <label className="text-sm mb-2 block">Full Name</label>
+            <input
              required
-             value={Email}
-             onChange={(e) => setEmail(e.target.value)}
+             name="name"
+             type="text"
+             className="border-2 border-gray-300 bg-[#fff]-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-500"
+             placeholder="Enter full name"
+             value={Name}
+             onChange={(e) => setName(e.target.value)}
              />
-            </div>
-
-
-            <div className="flex items-center">
-            <Image className='m-3' src={bd} width={20} height={20}/>
-            <label htmlFor="dob" className="mr-2">Birth Date:</label>
-              <input 
-              type="date" 
-              id="dob" placeholder="10-1-2024" 
-              className="border rounded-md p-2 m-2"
-              value={Birth_Date}
-             onChange={(e) => setBirth_Date(e.target.value)}
-              required />
-            </div>
-
-            <div className="flex items-center">
-            <Image className='m-3' src={id} width={20} height={20}/>
-              <label htmlFor="national-id" className="mr-2">National ID:</label>
-              <input 
-              id="national-id" 
-              placeholder="Enter your National ID" 
-              className="border rounded-md p-2 m-2"
-              value={NationalId}
+          </div>
+          <div>
+            <label className="text-sm mb-2 block">Email</label>
+            <input
+             required
+             name="email"
+             type="email" 
+             className="border-2 border-gray-300 bg-[#fff]-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-500" 
+             placeholder="Email"
+             value={Email}
+             onChange={(e) => setEmail(e.target.value)} 
+             />
+          </div>
+          <div>
+            <label className="text-sm mb-2 block">Phone</label>
+            <input
+             required
+             name="phone" 
+             type="text" 
+             className="border-2 border-gray-300 bg-[#fff]-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-500" 
+             placeholder="Enter phone" 
+             value={Phone}
+             onChange={(e) => setPhone(e.target.value)} 
+             />
+          </div>
+          <div>
+            <label className="text-sm mb-2 block">Birth Date</label>
+            <input
+             required
+             name="BirthDate" 
+             type="date" 
+             className="border-2 border-gray-300 bg-[#fff]-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-500"
+             value={Birth_Date}
+             onChange={(e) => setBirth_Date(e.target.value)} 
+             />
+          </div>
+          <div>
+            <label className="text-sm mb-2 block">National ID</label>
+            <input
+             name="NationalID" 
+             type="text" 
+             className="border-2 border-gray-300 bg-[#fff]-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-500" 
+             placeholder="Enter National Id"
+             value={NationalId}
              onChange={(e) => setNationalId(e.target.value)}
-              required />
-            </div>
-
-            <div className="flex items-center">
-            <Image className='m-3' src={blood} width={20} height={20}/>
-              <label htmlFor="national-id" className="mr-2">Blood Type:</label>
-              <input 
-              id="blood-type" 
-              placeholder="Enter your blood type" 
-              className="border rounded-md p-2 m-2"
-              value={Blood_Type}
-              onChange={(e) => setBlood_Type(e.target.value)}
               />
-            </div>
-
-            <div className="flex items-center p-2 m-2">
-            <Image src={name} width={20} height={20} className="m-2"/>
-            <label htmlFor="address">Address:</label>
-              <select 
-              id="address-governorate" 
-              placeholder="Governorate" 
-              className="w-30 border rounded-md p-2 m-2" 
-              value={Governorate}
-              onChange={(e) => setGovernorate(e.target.value)}
-              required>
+          </div>
+          <div>
+            <label className="text-sm mb-2 block">Blood Type</label>
+            <input
+            required
+             name="Blood Type"
+             type="text" 
+             className="border-2 border-gray-300 bg-[#fff]-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-500" 
+             placeholder="Enter Blood Type"
+              value={Blood_Type}
+              onChange={(e) => setBlood_Type(e.target.value)} 
+             />
+          </div>
+            <div>
+              <label className="text-sm mb-2 block">Address</label>
+              <div className="flex space-x-4">
+              <select
+                required
+                name="Governorate"
+                className="border-2 border-gray-300 bg-[#fff]-100 w-1/3 text-sm px-4 py-3.5 rounded-md outline-blue-500"
+                value={Governorate}
+                onChange={(e) => setGovernorate(e.target.value)}
+                >
               <option value="Cairo">Cairo</option>
               <option value="Giza">Giza</option>
               <option value="Alexandria">Alexandria</option>
@@ -181,44 +229,63 @@ const New_patient = () => {
               <option value="New Alexandria">New Alexandria</option>
               <option value="New Capital">New Capital</option>
               </select>
-              <input 
-              id="address-city" 
-              placeholder="City" 
-              className="w-30 border rounded-md p-2 m-2" 
-              value={City}
-              onChange={(e) => setCity(e.target.value)}
+              <input
+                required
+                name="City"
+                type="text"
+                className="border-2 border-gray-300 bg-[#fff]-100 w-1/3 text-sm px-4 py-3.5 rounded-md outline-blue-500"
+                placeholder="City"
+                value={City}
+                onChange={(e) => setCity(e.target.value)}
               />
-              <input 
-              id="address-street"
-               placeholder="Street" 
-               className="w-30 border rounded-md p-2 m-2" 
-               value={Street}
-               onChange={(e) => setStreet(e.target.value)}
-               />
-            </div>
+              <input
+                required
+                name="Street"
+                type="text"
+                className="border-2 border-gray-300 bg-[#fff]-100 w-1/3 text-sm px-4 py-3.5 rounded-md outline-blue-500"
+                placeholder="Street"
+                value={Street}
+                onChange={(e) => setStreet(e.target.value)}
 
-            <div className="flex items-center">
-            <Image className='m-3' src={gender} width={20} height={20}/>
-            <label htmlFor="gender" >Gender:</label>
-            <select 
-            className="border rounded-md p-2 m-2" 
-            value={Gender}
-            onChange={(e) => setGender(e.target.value)}
-            required>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-              </select>
-                </div>
-            <div className="col-span-2 flex flex-col justify-center items-center ">
-            
-                 <div className="flex justify-center w-full">
-                <button onClick={(e)=> handleSubmit(e)} className="w-20 h-10 m-4 bg-blue-500 hover:bg-blue-400 text-white font-bold py-1 px-1 border-b-4 border-blue-700 hover:border-blue-500 rounded ">Save</button>
-               <button className="w-30 h-10 m-4 bg-blue-500 hover:bg-blue-400 text-white font-bold py-1 px-3 border-b-4 border-blue-700 hover:border-blue-500 rounded ">Save & Make</button>
-  </div>
-              </div>
-              </form>
+              />
+            </div>
           </div>
-      </div>
+          <div>
+            <label className="text-sm mb-2 block">Gender</label>
+            <select
+              required
+              name="Gender"
+              className="border-2 border-gray-300 bg-[#fff]-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-500"
+              value={Gender}
+              onChange={(e) => setGender(e.target.value)}
+              >
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+          </select>
+           </div>
+          
+        </div>
+        <div className="flex justify-center gap-4 mt-10">
+    <button 
+    type="button" 
+    className="min-w-[150px] py-3 px-4 text-sm font-semibold rounded text-white bg-blue-500 hover:bg-blue-600 focus:outline-none"
+    onClick={(e)=> handleSubmit(e)}
+    >
+      Add New Patient
+    </button>
+
+
+    <button
+     type="button" 
+     className="min-w-[150px] py-3 px-4 text-sm font-semibold rounded text-white bg-blue-500 hover:bg-blue-600 focus:outline-none"
+      onClick={()=>router.push(`/MakeApp/${reg}?reg=${reg}&name=${Name}`)}
+     
+     >
+    Add Patient and make Appointment
+    </button>
+  </div>
+      </form>
+    </div>
     )
   }
 
