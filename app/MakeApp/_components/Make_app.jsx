@@ -2,13 +2,20 @@
 import { useState } from 'react';
 import Link from "next/link"
 import PostApp from '../../_Utils/PostApp';
+import { useSearchParams } from 'next/navigation';
 
  const Make_app = () => {
+  const searchParams = useSearchParams();
+
+  const name = searchParams.get('name')
+  console.log(name)
+  
   const [specializations, setspecializations] = useState('');
   const [date, setdate] = useState('');
   const [time, settime] = useState('');
   // const [AppointmentID, setAppointmentID] = useState('');
   // const [receptionist, setreceptionist] = useState('');
+
 
 
   const handleSubmit = (e) => {
