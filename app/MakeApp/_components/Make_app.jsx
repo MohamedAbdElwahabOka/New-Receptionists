@@ -32,9 +32,7 @@ import Select from 'react-select';
     // Add more options as needed
   ];
 
-  import { useState, useEffect } from 'react';
-import axios from 'axios';
-import Select from 'react-select';
+
 
 // // Inside your component
 // const [options, setOptions] = useState([]);
