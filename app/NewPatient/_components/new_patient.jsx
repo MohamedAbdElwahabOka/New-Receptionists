@@ -1,25 +1,14 @@
 "use client"
-import { useState } from 'react';
 import Image from "next/image";
-import Link from 'next/link';
-import name from '/public/name.jpg';
-import phone from '/public/phone.png';
-import id from '/public/national.png';
-import email from '/public/email.png';
-import blood from '/public/blood.png';
-import bd from '/public/th.jpg';
-import gender from '/public/Gender-Symbol-PNG.png';
 import PostPatient from '../../_Utils/PostPatient';
 import logo from '/public/logo.svg'
 import Swal from 'sweetalert2'
-import { useRef } from 'react';
+import { useRef ,useState ,useEffect} from 'react';
 import { useRouter } from 'next/navigation';
+import PatientAPI from '../../_Utils/PatientAPI';
 
-const New_patient = ({reg}) => {
+const New_patient = ({ReceptionistsRegNum}) => {
 
-
-  console.log(reg)
-// Inside your component
   const router  = useRouter();
   const formRef = useRef();
   const [Name, setName] = useState('');
@@ -33,10 +22,47 @@ const New_patient = ({reg}) => {
   const [Gender, setGender] = useState('');
   const [Blood_Type, setBlood_Type] = useState('');
 
-  // const [Password, setPassword] = useState('');
-  // const [VerifyPassword, setVerifyPassword] = useState('');
-  // const [UploadLicense, setUploadLicense] = useState('');
-  // const [Profileimage, setProfileimage] = useState('');
+  const [Patients , setPatients] = useState([]);
+
+  useEffect(() => {
+    getPatient_();
+  }, [])
+
+  const getPatient_ = () => {
+    PatientAPI.getPatient().then(res => {
+      console.log(res.data.data);
+      setPatients(res.data.data);
+
+    })
+  }
+
+
+
+  const generateRandomNumber = () => {
+    let randomNumber = Math.floor(Math.random() * 900000 + 100000);
+    return randomNumber;
+  }
+
+  let valid_Patient_Reg_num = 0;
+  let reg;
+
+  while (!valid_Patient_Reg_num) {
+    reg = generateRandomNumber();
+
+    const user = Patients.find(
+      (item) => item?.attributes?.reg_Num && item.attributes.reg_Num.substring(1) === reg.toString()
+    );
+
+    if (!user) {
+      valid_Patient_Reg_num = reg;
+      console.log('Valid Reg num:', valid_Patient_Reg_num);
+    } else {
+      console.log('Not valid reg num, trying again...');
+    }
+  }
+
+  console.log(valid_Patient_Reg_num)
+
   
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -44,8 +70,8 @@ const New_patient = ({reg}) => {
     
     const data = {
       data:{
-        reg_Num : "P55655" ,
-        Password : "P56555",
+        reg_Num : `P${valid_Patient_Reg_num}`,
+        Password : `P${valid_Patient_Reg_num}`,
         Name : Name,
         Email : Email,
         phone : Phone,
@@ -115,7 +141,7 @@ const New_patient = ({reg}) => {
         width={50} height={50}
           src={logo} alt="logo" className='inline-block' />
         </a>
-        <h4 className="text-base font-semibold mt-3">Enter New Patient Details</h4>
+        <h4 className="text-3xl font-bold mb-3 text-blue-600 mt-1">Enter New Patient Details</h4>
       </div>
       <form ref={formRef}>
         <div className="grid sm:grid-cols-2 gap-y-7 gap-x-12">
@@ -278,8 +304,11 @@ const New_patient = ({reg}) => {
     <button
      type="button" 
      className="min-w-[150px] py-3 px-4 text-sm font-semibold rounded text-white bg-blue-500 hover:bg-blue-600 focus:outline-none"
-      onClick={()=>router.push(`/MakeApp/${reg}?reg=${reg}&name=${Name}`)}
-     
+      onClick={(e) => {
+        e.preventDefault();
+        router.push(`/MakeApp/${ReceptionistsRegNum}?PatientRegNum=${valid_Patient_Reg_num}&name=${Name}`);
+        handleSubmit(e);
+      }}
      >
     Add Patient and make Appointment
     </button>

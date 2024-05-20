@@ -1,22 +1,66 @@
 "use client"
 import { useState } from 'react';
 import Link from "next/link"
-import PostApp from '../../_Utils/PostApp';
+import Image from "next/image";
+import logo from '/public/logo.svg'
+import PostApp from '../../_Utils/AppointmentsAPI';
 import { useSearchParams } from 'next/navigation';
-
- const Make_app = () => {
+import Select from 'react-select';
+ const Make_app = ({params}) => {
   const searchParams = useSearchParams();
 
-  const name = searchParams.get('name')
-  console.log(name)
+  const PatientRegNum = searchParams.get('PatientRegNum')
+  const PatientName = searchParams.get('name')
+  // console.log(PatientRegNum)
+  // console.log(name)
   
-  const [specializations, setspecializations] = useState('');
+  const [specializations, setSpecializations] = useState('');
   const [date, setdate] = useState('');
   const [time, settime] = useState('');
   // const [AppointmentID, setAppointmentID] = useState('');
   // const [receptionist, setreceptionist] = useState('');
 
+  const options = [
+    { value: 'general specialty', label: 'general specialty' },
+    { value: 'Anatomical Pathology', label: 'Anatomical Pathology' },
+    { value: 'Anesthesiology', label: 'Anesthesiology' },
+    { value: 'Cardiology', label: 'Cardiology' },
+    { value: 'Cardiovascular/Thoracic Surgery', label: 'Cardiovascular/Thoracic Surgery' },
+    { value: 'Clinical Immunology/Allergy', label: 'Clinical Immunology/Allergy' },
+    { value: 'Critical Care Medicine', label: 'Critical Care Medicine' },
+    { value: 'Dermatology', label: 'Dermatology' },
+    // Add more options as needed
+  ];
 
+
+
+// // Inside your component
+// const [options, setOptions] = useState([]);
+
+// useEffect(() => {
+//   axios.get('your-api-url-here')
+//     .then(response => {
+//       // assuming the API returns an array of options
+//       const fetchedOptions = response.data.map(item => ({
+//         value: item.value, // replace 'value' and 'label' with the actual property names returned by your API
+//         label: item.label
+//       }));
+//       setOptions(fetchedOptions);
+//     })
+//     .catch(error => {
+//       console.error('There was an error!', error);
+//     });
+// }, []);
+
+// return (
+//   <div>
+//     <label className="text-sm mb-2 block">specializations</label>
+//     <Select
+//       options={options}
+//       onChange={(selectedOption) => setSpecializations(selectedOption.value)}
+//     />
+//   </div>
+// );
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,8 +74,7 @@ import { useSearchParams } from 'next/navigation';
         hospital: 14 ,
         patient:21,
         receptionist:17 ,
-       doctor:17
-        
+        doctor:17
       }
     }
     PostApp.addApp(data).then((res) => {
@@ -43,99 +86,94 @@ import { useSearchParams } from 'next/navigation';
 
   };
     return(
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold mb-6 text-blue-600">Make new appointment</h2>
-        <form onSubmit={(e)=> handleSubmit(e)}>
-          <div className="flex items-center">
-             <h3 htmlFor="name" className="mr-2">Patient ID: R1234</h3>
-            </div>
-
-            <div className="flex items-center">
-            <label htmlFor="gender" >Specializations :</label>
-            <select 
-            className="border rounded-md p-2 m-2" 
-            value={specializations}
-            onChange={(e) => setspecializations(e.target.value)}
-            required>
-                <option >Cardiology</option>
-                <option >Dermatologist</option>
-                <option >Gastroenterology</option>
-                <option >Obstetrics</option>
-                <option >Psychiatry</option>
-                <option >Ophthalmology</option>
-                <option >Otolaryngology</option>
-                <option >Orthopedics</option>
-              </select>
-                </div>
-
-            <div className="flex items-center">
-            <label htmlFor="dob" className="mr-2">Date:</label>
-              <input 
-              type="date" 
-              id="dob" 
-              placeholder="10-1-2024"
-               className="border rounded-md p-2 m-2" 
-               value={date}
-              onChange={(e) => setdate(e.target.value)}
-               required />
-            </div>
-            
-            <div className="flex items-center">
-             <label htmlFor="time" className="mr-2">Time :</label>
-             <input 
-             id="date"
-            placeholder="time"
-            type="time"
-            className="border rounded-md p-2 m-2" 
-            value={time}
-            onChange={(e) => settime(e.target.value)}
-            required />
-            </div>
-
-
-            {/* <div className="flex items-center p-2 m-2">
-            <label htmlFor="hospital">Hospital:</label>
-              <select id="address-governorate" placeholder="Governorate" className="w-30 border rounded-md p-2 m-2" required>
-              <option value="Cairo">Cairo</option>
-              <option value="Giza">Giza</option>
-              <option value="Alexandria">Alexandria</option>
-              <option value="Qalyubia">Qalyubia</option>
-              <option value="Sharqia">Sharqia</option>
-              <option value="Dakahlia">Dakahlia</option>
-              <option value ="Gharbia">Gharbia</option>
-              <option value="Kafr el-Sheikh">Kafr el-Sheikh</option>
-              <option value="Monufia">Monufia</option>
-              <option value="Red Sea">Red Sea</option>
-              <option value="New Valley">New Valley</option>
-              <option value="Sohag">Sohag</option>
-              <option value="Qena">Qena</option>
-              <option value="Luxor">Luxor</option>
-              <option value="Aswan">Aswan</option>
-              <option value="Beni Suef">Beni Suef</option>
-              <option value="Faiyum">Faiyum</option>
-              <option value="Minya">Minya</option>
-              <option value="Asyut">Asyut</option>
-              <option value="Wadi">Wadi</option>
-              <option value="South Sinai">South Sinai</option>
-              <option value="North Sinai">North Sinai</option>
-              <option value="Damietta">Damietta</option>
-              <option value="Port Said">Port Said</option>
-              <option value="Ismailia">Ismailia</option>
-              <option value="Suez">Suez</option>
-              <option value="Matruh">Matruh</option>
-              <option value="New Alexandria">New Alexandria</option>
-              <option value="New Capital">New Capital</option>
-              </select>
-            </div> */}
-
+      <div className="max-w-4xl mx-auto font-[sans-serif] text-[#333] p-6">
+      <div className="text-center mb-16">
+        <a href="javascript:void(0)">
+          <Image
+        width={50} height={50}
+          src={logo} alt="logo" className='inline-block' />
+        </a>
+        <h4 className="text-3xl font-bold mb-3 text-blue-600 mt-1">
+          Make New Appointment
+        </h4>
+      </div>
+      <form >
+        <div className="grid sm:grid-cols-2 gap-y-7 gap-x-12">
+          <div>
+            <label className="text-sm mb-2 block">Registration number</label>
+            <input
+             required
+             name="name"
+             type="text"
+             className="border-2 border-gray-300 bg-[#fff]-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-500"
+             disabled
+             value={`P${PatientRegNum}`}
            
-            <div className="col-span-2 flex flex-col justify-center items-center ">
-    <div className="flex justify-center w-full">
-    <button onClick={(e)=> handleSubmit(e)}  className="w-20 h-10 m-4 bg-blue-500 hover:bg-blue-400 text-white font-bold py-1 px-1 border-b-4 border-blue-700 hover:border-blue-500 rounded ">Save</button>
-  </div>
-              </div>
-              </form>
+             />
           </div>
+          <div>
+            <label className="text-sm mb-2 block">Patient Name</label>
+            <input
+             required
+             name="email"
+             type="email" 
+             className="border-2 border-gray-300 bg-[#fff]-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-500" 
+             disabled
+             value={PatientName}
+            
+             />
+          </div>
+          
+          <div>
+            <label className="text-sm mb-2 block">Date</label>
+            <input
+             required
+             name="Date" 
+             type="date" 
+             className="border-2 border-gray-300 bg-[#fff]-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-500"
+             value={date}
+             onChange={(e) => setdate(e.target.value)} 
+             />
+          </div>
+          <div>
+            <label className="text-sm mb-2 block">Time</label>
+            <input
+             required
+             name="time" 
+             type="time" 
+             className="border-2 border-gray-300 bg-[#fff]-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-500" 
+             placeholder="time" 
+             value={time}
+             onChange={(e) => settime(e.target.value)} 
+             />
+          </div>
+          <div>
+            <label className="text-sm mb-2 block">specializations</label>
+          <Select
+           options={options}
+            onChange={(selectedOption) => setSpecializations(selectedOption.value)}
+           />
+           </div>
+           <div>
+            <label className="text-sm mb-2 block">Hospitals</label>
+          <Select
+           options={options}
+            onChange={(selectedOption) => setSpecializations(selectedOption.value)}
+           />
+           </div>
+          
+        </div>
+        <div className="flex justify-center gap-4 mt-10">
+    <button 
+    type="button" 
+    className="min-w-[150px] py-3 px-4 text-sm font-semibold rounded text-white bg-blue-500 hover:bg-blue-600 focus:outline-none"
+    onClick={(e)=> handleSubmit(e)}
+    >
+      Book Appointment
+    </button>
+  </div>
+      </form>
+    </div>
     )
 } 
 export default Make_app; 
