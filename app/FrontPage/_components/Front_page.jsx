@@ -8,17 +8,23 @@ import manage from '/public/Appointment.png'
 import doctor from '/public/doctor.png'
 import addapp from '/public/appointment-icon-png-27.jpg'
 import list from '/public/list-icon-png-19.jpg';
+import left from "/public/Left icon.png"
 import ReceptionAPI from '../../_Utils/ReceptionAPI';
 import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 
 
 
 export default function Front_page({ReceptionistRegNum}){
 
   const router = useRouter();
+  console.log(window.location.href)
 
   // console.log(ReceptionistRegNum)
-
+const logOut =() =>{
+  // Cookies.set("loggedin",false)
+  router.push('/')
+}
 
 
   const [receptionistNameByRegistrationNumber, setReceptionistNameByRegistrationNumber] = useState([]);
@@ -121,6 +127,27 @@ export default function Front_page({ReceptionistRegNum}){
                 />
                 <h3 className="text-xl font-bold text-gray-800">Patient List</h3>
               </Link>
+
+      {/* 
+      Log out 
+      */}
+
+          <button
+            className="flex flex-col items-center justify-center space-y-4 bg-red-500 shadow-lg rounded-xl p-6 hover:bg-gray-100 transition-colors"
+            onClick={()=>logOut()}
+          >
+            <Image
+              alt="Hospital"
+              className="rounded-full"
+              height={80}
+              src={left}
+              width={80}
+            />
+            <h3 className="text-xl font-bold text-[#fff]">log out</h3>
+          </button>
+
+
+
             </div>
             
           </div>
