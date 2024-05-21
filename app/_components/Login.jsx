@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import Swal from 'sweetalert2'
+import Cookies from 'js-cookie';
+
 
 const Login = ({data}) => {
 
@@ -13,6 +15,7 @@ const Login = ({data}) => {
 
 
   const handleLogin = (e) => {
+
     e.preventDefault();
     const user = data.find(
       (item) =>
@@ -26,8 +29,8 @@ const Login = ({data}) => {
         text: "Invalid registration number or password.",
       });
     } else {
+      // Cookies.set("loggedin", true);
       router.push(`/FrontPage/${user?.attributes?.reg_Num}`);
-      // router.push(`/FrontPage/${user?.id}`);
       Swal.fire(`Hello ${user?.attributes?.Name}!`, `Welcome to Telegy Care!`, `success`);
     }
   };
