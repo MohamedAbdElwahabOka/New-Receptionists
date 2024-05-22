@@ -9,7 +9,7 @@ export default function page({params}){
           reg={params.RRegNum}
           className="w-64 bg-gray-800 text-white px-4 py-8" />
           <div className="flex-grow bg-gray-100 p-8">
-          <Make_app/>
+          <Make_app receptionistRegNum={params.RRegNum}/>
           </div>
         </div>
         </div>
