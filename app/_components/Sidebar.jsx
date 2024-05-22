@@ -5,26 +5,37 @@ import React, { useEffect, useState } from 'react'
 
 function Sidebar({reg}) {
 
-  // console.log(reg)
+  console.log(reg)
     
-  // const [isActive, setIsActive] = useState(window.location.href.includes('NewPatient'));
+  const [isActive, setIsActive] = useState(window.location.href.includes('NewPatient'));
 
-  // useEffect(() => {
-  //     setIsActive(window.location.href.includes('NewPatient'));
-  // }, []);
+  useEffect(() => {
+      setIsActive(window.location.href.includes('NewPatient'));
+  }, []);
 
-  // console.log(isActive)
+  console.log(isActive)
     const navItems = [
         {
           id: 1,
-          icon: <svg width="20" height="22" viewBox="0 0 20 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M14.1246 5.5C13.9408 7.97828 12.0621 10 9.99955 10C7.93705 10 6.05502 7.97875 5.87455 5.5C5.68705 2.92188 7.51517 1 9.99955 1C12.4839 1 14.3121 2.96875 14.1246 5.5Z" stroke="#0070CD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M10.0001 13C5.92199 13 1.78293 15.25 1.01699 19.4969C0.924645 20.0088 1.21433 20.5 1.75011 20.5H18.2501C18.7864 20.5 19.0761 20.0088 18.9837 19.4969C18.2173 15.25 14.0782 13 10.0001 13Z" stroke="#0070CD" stroke-width="2" stroke-miterlimit="10"/>
+          icon: 
+          <svg 
+          width="20"
+          height="22" 
+          viewBox="0 0 20 22" 
+          fill="none" 
+          xmlns="http://www.w3.org/2000/svg">
+          <style></style>
+          <path d="M14.1246 5.5C13.9408 7.97828 12.0621 10 9.99955 10C7.93705 10 6.05502 7.97875 5.87455 5.5C5.68705 2.92188 7.51517 1 9.99955 1C12.4839 1 14.3121 2.96875 14.1246 5.5Z"
+          stroke={isActive ? "#0070CD" : "#ffff"}
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M10.0001 13C5.92199 13 1.78293 15.25 1.01699 19.4969C0.924645 20.0088 1.21433 20.5 1.75011 20.5H18.2501C18.7864 20.5 19.0761 20.0088 18.9837 19.4969C18.2173 15.25 14.0782 13 10.0001 13Z"
+           stroke={isActive ? "#0070CD" : "#ffff"}
+           stroke-width="2" stroke-miterlimit="10"/>
           </svg>
           ,
           link:`/NewPatient/${reg}`,
           text: "New Patient",
-          isActive: true,
+          isActive: isActive,
         },
         
         
@@ -41,7 +52,7 @@ function Sidebar({reg}) {
           </svg> ,
           link: `/PatientList/${reg}`,
           text: "Make Appointment",
-          isActive: false,
+          isActive: !isActive,
         },
         {
           id: 4,
@@ -119,9 +130,9 @@ function Sidebar({reg}) {
                 <li key={navItem.id}>
                   <Link href={navItem.link} className={`
                                 flex items-center gap-x-4 px-3 py-2.5 rounded-md
-                                ${navItem.isActive ? "bg-white dark:bg-white text-[#0070CD] dark:text-[#0070CD]" : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-900"}
+                                ${navItem.isActive ? "bg-white text-[#0070CD] " : "text-[#fff]  hover:bg-[#ffff] hover:text-[#0070CD]"}
                             `}>
-                    <span className="min-w-max inline-flex">
+                    <span className="min-w-max inline-flex ">
                       {navItem.icon}
                     </span>
                     <span className={`
