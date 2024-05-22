@@ -9,7 +9,8 @@ import PatientAPI from '../../_Utils/PatientAPI';
 
 const New_patient = ({ReceptionistsRegNum}) => {
 
-  const router  = useRouter();
+
+  const router  = useRouter();  
   const formRef = useRef();
   const [Name, setName] = useState('');
   const [Email, setEmail] = useState('');
@@ -20,7 +21,8 @@ const New_patient = ({ReceptionistsRegNum}) => {
   const [City, setCity] = useState('');
   const [Street, setStreet] = useState('');
   const [Gender, setGender] = useState('');
-  const [Blood_Type, setBlood_Type] = useState('');
+  const [Blood_Type, setBlood_Type] = useState('');  
+
 
   const [Patients , setPatients] = useState([]);
 
@@ -120,6 +122,7 @@ const New_patient = ({ReceptionistsRegNum}) => {
     text: "Your account has been registered successfully",
     icon: "success"
   });
+  router.push(`/MakeApp/${ReceptionistsRegNum}?PatientRegNum=${valid_Patient_Reg_num}&name=${Name}`);
   // sendEmail();
 }).catch((error) => {
   console.log(error)
@@ -204,17 +207,24 @@ const New_patient = ({ReceptionistsRegNum}) => {
               />
           </div>
           <div>
-            <label className="text-sm mb-2 block">Blood Type</label>
-            <input
-            required
-             name="Blood Type"
-             type="text" 
-             className="border-2 border-gray-300 bg-[#fff]-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-500" 
-             placeholder="Enter Blood Type"
-              value={Blood_Type}
-              onChange={(e) => setBlood_Type(e.target.value)} 
-             />
-          </div>
+                <label className="text-sm mb-2 block">Blood Type</label>
+                <select 
+                  required
+                  name="Blood Type"
+                  className="border-2 border-gray-300 bg-[#fff]-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-500"
+                  value={Blood_Type}
+                  onChange={(e) => setBlood_Type(e.target.value)}>
+                  {/* <option value="">Select Blood Type</option> */}
+                  <option selected value="A+">A+</option>
+                  <option value="A+">A-</option>
+                  <option value="B+">B+</option>
+                  <option value="B-">B-</option>
+                  <option value="AB+">AB+</option>
+                  <option value="AB-">AB-</option>
+                  <option value="O+">O+</option>
+                  <option value="O-">O-</option>
+                </select>
+              </div>
             <div>
               <label className="text-sm mb-2 block">Address</label>
               <div className="flex space-x-4">
@@ -306,9 +316,10 @@ const New_patient = ({ReceptionistsRegNum}) => {
      className="min-w-[150px] py-3 px-4 text-sm font-semibold rounded text-white bg-blue-500 hover:bg-blue-600 focus:outline-none"
       onClick={(e) => {
         e.preventDefault();
-        router.push(`/MakeApp/${ReceptionistsRegNum}?PatientRegNum=${valid_Patient_Reg_num}&name=${Name}`);
+       
         handleSubmit(e);
       }}
+      
      >
     Add Patient and make Appointment
     </button>

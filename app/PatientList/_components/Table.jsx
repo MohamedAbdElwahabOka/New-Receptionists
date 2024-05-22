@@ -45,6 +45,7 @@ function Table({data}) {
                     {/* { console.log(item?.attributes?.pres_state)} */}
                   </Link>
                 </td>
+                
                 <td className=" px-4 py-2">
                   <Link href={`/patient-details/${item?.attributes?.patient?.data?.id}`}>
                     

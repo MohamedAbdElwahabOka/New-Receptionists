@@ -3,22 +3,7 @@
 import React, { useEffect, useState } from 'react';
 
 export default function Manage_app(data) {
-  const [filteredData, setFilteredData] = useState(data);
-    const [searchTerm, setSearchTerm] = useState('');
-
-    useEffect(() => {
-        if (searchTerm) {
-          const filtered = data.filter((item) =>
-            Object.values(item)
-              .join('')
-              .toLowerCase()
-              .includes(searchTerm.toLowerCase())
-          );
-          setFilteredData(filtered);
-        } else {
-          setFilteredData(data);
-        }
-      }, [searchTerm, data]);
+    
   return (
     <div className="flex h-screen bg-gray-100 ">
       <div className="flex-1 px-10 py-6">
@@ -27,8 +12,8 @@ export default function Manage_app(data) {
         <input
           type="text"
           placeholder="Search..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          // value={searchTerm}
+          // onChange={(e) => setSearchTerm(e.target.value)}
           className="w-64 px-3 py-2 placeholder-gray-500 border rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:w-auto"
         />
       </div>

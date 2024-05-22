@@ -18,7 +18,7 @@ import Cookies from "js-cookie";
 export default function Front_page({ReceptionistRegNum}){
 
   const router = useRouter();
-  console.log(window.location.href)
+  // console.log(window.location.href)
 
   // console.log(ReceptionistRegNum)
 const logOut =() =>{
