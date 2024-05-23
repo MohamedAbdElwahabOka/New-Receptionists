@@ -69,7 +69,7 @@ function Patient_list({Patients ,receptionistRegNum}) {
                 </td>
                 <td className="px-4 py-2 text-center">
                 <button className="px-3 py-1 rounded-md bg-blue-500 text-white mx-auto" variant="ghost"
-                onClick={()=>{router.push(`/MakeApp/${receptionistRegNum}?PatientRegNum=${Patient?.attributes?.reg_Num}&name=${Patient?.attributes?.Name}`);}}
+                onClick={()=>{router.push(`/MakeApp/${receptionistRegNum}?P=MakeApp&PatientRegNum=${Patient?.attributes?.reg_Num}&name=${Patient?.attributes?.Name}`);}}
                 >Make app </button>
                 </td>
                 
