@@ -2,7 +2,7 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 
-export default function Manage_app(data) {
+export default function Manage_app({Appointments}) {
     
   return (
     <div className="flex h-screen bg-gray-100 ">
