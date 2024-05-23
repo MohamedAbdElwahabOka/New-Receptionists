@@ -8,7 +8,7 @@ import manage from '/public/Appointment.png'
 import doctor from '/public/doctor.png'
 import addapp from '/public/appointment-icon-png-27.jpg'
 import list from '/public/list-icon-png-19.jpg';
-import left from "/public/Left icon.png"
+import left from "/public/Left icon.svg"
 import ReceptionAPI from '../../_Utils/ReceptionAPI';
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
@@ -59,7 +59,7 @@ const logOut =() =>{
               <Link
                 className="flex flex-col items-center justify-center space-y-4 bg-white  shadow-lg rounded-xl p-6 hover:bg-gray-100  transition-colors"
                 // OnClick={router.push(`/NewPatient/${ReceptionistRegNum}`)}
-                href='/NewPatient/[$id]' as={`/NewPatient/${ReceptionistRegNum}`}>
+                href='/NewPatient/[$id]' as={`/NewPatient/${ReceptionistRegNum}?P=NewPatient`}>
               
                 <Image
                   src={avatar}
@@ -73,7 +73,7 @@ const logOut =() =>{
               <Link
                 className="flex flex-col items-center justify-center space-y-4 bg-white  shadow-lg rounded-xl p-6 hover:bg-gray-100  transition-colors"
                 // href="MakeApp"
-                href='/MakeApp/[$id]' as={`/MakeApp/${ReceptionistRegNum}`}
+                href='/PatientList/[$id]' as={`/PatientList/${ReceptionistRegNum}?P=PatientList`}
               >
                 <Image
                   alt="Existing Patient"
@@ -84,10 +84,10 @@ const logOut =() =>{
                 />
                 <h3 className="text-xl font-bold text-gray-800">Make Appointment</h3>
               </Link>
-              <Link
+              {/* <Link
                 className="flex flex-col items-center justify-center space-y-4 bg-white  shadow-lg rounded-xl p-6 hover:bg-gray-100 transition-colors"
                 // href="Doctors"
-                href='/Doctors/[$id]' as={`/Doctors/${ReceptionistRegNum}`}
+                href='/Doctors/[$id]' as={`/Doctors/${ReceptionistRegNum}?P=Doctors`}
               >
                 <Image
                   alt="Hospital"
@@ -97,11 +97,11 @@ const logOut =() =>{
                   width={80}
                 />
                 <h3 className="text-xl font-bold text-gray-800">Doctors</h3>
-              </Link>
+              </Link> */}
               <Link
                 className="flex flex-col items-center justify-center space-y-4 bg-white  shadow-lg rounded-xl p-6 hover:bg-gray-100 transition-colors"
                 // href="ManageApp"
-                href='/ManageApp/[$id]' as={`/ManageApp/${ReceptionistRegNum}`}
+                href='/ManageApp/[$id]' as={`/ManageApp/${ReceptionistRegNum}?P=ManageApp`}
               >
                 <Image
                   alt="Hospital"
@@ -116,7 +116,7 @@ const logOut =() =>{
               <Link
                 className="flex flex-col items-center justify-center space-y-4 bg-white  shadow-lg rounded-xl p-6 hover:bg-gray-100 transition-colors"
                 // href="PatientList"
-                href='/PatientList/[$id]' as={`/PatientList/${ReceptionistRegNum}`}
+                href='/PatientList/[$id]' as={`/PatientList/${ReceptionistRegNum}?P=PatientList`}
               >
                 <Image
                   alt="Hospital"
@@ -133,21 +133,18 @@ const logOut =() =>{
       */}
 
           <button
-            className="flex flex-col items-center justify-center space-y-4 bg-red-500 shadow-lg rounded-xl p-6 hover:bg-gray-100 transition-colors"
+            className="flex flex-col items-center justify-center space-y-4 bg-red-500 shadow-lg rounded-xl p-6  hover:bg-red-100 transition-colors"
             onClick={()=>logOut()}
           >
             <Image
               alt="Hospital"
-              className="rounded-full"
+              // className="rounded-full"
               height={80}
               src={left}
               width={80}
             />
-            <h3 className="text-xl font-bold text-[#fff]">log out</h3>
+            <h3 className="text-xl font-bold text-[#fff] ">log out</h3>
           </button>
-
-
-
             </div>
             
           </div>

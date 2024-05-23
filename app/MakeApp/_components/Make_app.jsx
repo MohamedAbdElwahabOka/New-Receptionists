@@ -10,6 +10,7 @@ import PatientAPI from '../../_Utils/PatientAPI'
 import HospitalsAPI from '../../_Utils/HospitalsAPI';
 import DoctorsAPI from '@/app/_Utils/DoctorsAPI';
 import ReceptionAPI from '@/app/_Utils/ReceptionAPI';
+import AppointmentsAPI from "@/app/_Utils/AppointmentsAPI"
 import Swal from 'sweetalert2'
 
 const Make_app = ({receptionistRegNum}) => {
@@ -155,6 +156,23 @@ const getPatientByRegistrationNumber_ = () => {
 /*
 !______________________________________________Start AppointmentID_______________________________________________
 */
+
+const [allAppointments , setAllAppointments] = useState();
+useEffect(() => {
+  getAppointments_();
+}, [])
+
+const getAppointments_ = () => {
+  AppointmentsAPI.getAppointments()
+    .then(res => {
+      console.log(res.data.data);
+      setAllAppointments(res.data.data);
+    })
+    .catch(err => {
+      console.error(err);
+      
+    });
+}
 const generateRandomNumber = () => {
   let randomNumber = Math.floor(Math.random() * 900000 + 100000);
   return randomNumber;
@@ -166,7 +184,7 @@ let reg;
 while (!valid_Patient_Reg_num) {
   reg = generateRandomNumber();
 
-  const user = Patients.find(
+  const user = (allAppointments|| []).find(
     (item) => item?.attributes?.reg_Num && item.attributes.reg_Num.substring(1) === reg.toString()
   );
 
@@ -182,7 +200,7 @@ console.log(valid_Patient_Reg_num)
 /*
 !______________________________________________End AppointmentID ________________________________________________
 */
-
+console.log(ReceptionistFilteredByRegistrationNumber)
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -192,10 +210,10 @@ console.log(valid_Patient_Reg_num)
         specializations: specializations,
         date: date,
         time: convertTimeFormat(time),
-        AppointmentID: valid_Patient_Reg_num,
+        AppointmentID: `A${valid_Patient_Reg_num}`,
         hospital: hospital ,
         patient:patientsIdFiltersByRegNum,
-        receptionist:ReceptionistFilteredByRegistrationNumber ,
+        receptionists:ReceptionistFilteredByRegistrationNumber ,
         doctor:doctor
       }
     }
