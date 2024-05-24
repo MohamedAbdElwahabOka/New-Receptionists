@@ -44,9 +44,6 @@ export default function page({params}){
     });
 
   }
-
-
-
     return(
     <div>
       <div className="flex h-screen">  
