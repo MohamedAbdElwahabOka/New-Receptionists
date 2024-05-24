@@ -6,6 +6,7 @@ import Swal from 'sweetalert2'
 import { useRef ,useState ,useEffect} from 'react';
 import { useRouter } from 'next/navigation';
 import PatientAPI from '../../_Utils/PatientAPI';
+import crypto from 'crypto';
 
 const New_patient = ({ReceptionistsRegNum}) => {
 
@@ -16,12 +17,12 @@ const New_patient = ({ReceptionistsRegNum}) => {
   const [Email, setEmail] = useState('');
   const [Phone, setPhone] = useState('');
   const [Birth_Date, setBirth_Date] = useState('');
-  const [Governorate, setGovernorate] = useState('');
+  const [Governorate, setGovernorate] = useState('Cairo');
   const [NationalId, setNationalId] = useState('');
   const [City, setCity] = useState('');
   const [Street, setStreet] = useState('');
-  const [Gender, setGender] = useState('');
-  const [Blood_Type, setBlood_Type] = useState('');  
+  const [Gender, setGender] = useState('Male');
+  const [Blood_Type, setBlood_Type] = useState('A++');  
 
 
   const [Patients , setPatients] = useState([]);
@@ -65,15 +66,22 @@ const New_patient = ({ReceptionistsRegNum}) => {
 
   console.log(valid_Patient_Reg_num)
 
+  function hashPassword(password) {
+    const hash = crypto.createHash('sha256');
+    hash.update(password);
+    return hash.digest('hex');
+  }
+
   
   const handleSubmit = (e) => {
     e.preventDefault();
     formRef.current.reset(); 
+    const hashedPassword = hashPassword(`P${valid_Patient_Reg_num}`)
     
     const data = {
       data:{
         reg_Num : `P${valid_Patient_Reg_num}`,
-        Password : `P${valid_Patient_Reg_num}`,
+        Password : hashedPassword,
         Name : Name,
         Email : Email,
         phone : Phone,
@@ -93,46 +101,39 @@ const New_patient = ({ReceptionistsRegNum}) => {
   //     console.log(error);
   //   });
   // };
-  let timerInterval;
   Swal.fire({
-    title: "Register now",
-    html: "I will close in <b></b> milliseconds.",
-    timer: 4000,
-    timerProgressBar: true,
-    didOpen: () => {
-      Swal.showLoading();
-      const timer = Swal.getPopup().querySelector("b");
-      timerInterval = setInterval(() => {
-        timer.textContent = `${Swal.getTimerLeft()}`;
-      }, 100);
-    },
-    willClose: () => {
-      clearInterval(timerInterval);
-    }
-  }).then((result) => {
-    /* Read more about handling dismissals below */
-    if (result.dismiss === Swal.DismissReason.timer) {
-     
+    title: 'Loading...',
+    html: '<img class="my-loading-gif" src="/heart_loading.gif" alt="Loading..." />',
+    showConfirmButton: false,
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    allowEnterKey: false,
+    customClass: {
+      popup: 'my-custom-popup'
     }
   });
   PostPatient.addPatient(data).then((res) => {
   console.log(res)
+  Swal.close();
   Swal.fire({
     title: "Congratulations",
     text: "Your account has been registered successfully",
     icon: "success"
   });
-  router.push(`/MakeApp/${ReceptionistsRegNum}?PatientRegNum=${valid_Patient_Reg_num}&name=${Name}`);
+  
+ 
   // sendEmail();
 }).catch((error) => {
   console.log(error)
+  Swal.close();
   Swal.fire({
     icon: "error",
     title: "Oops...",
     text: "There was an error recording, try again"
   });
-});
 
+});
+return true
 };
 
   
@@ -305,7 +306,15 @@ const New_patient = ({ReceptionistsRegNum}) => {
     <button 
     type="button" 
     className="min-w-[150px] py-3 px-4 text-sm font-semibold rounded text-white bg-blue-500 hover:bg-blue-600 focus:outline-none"
-    onClick={(e)=> handleSubmit(e)}
+    onClick={
+      (e) => {
+        e.preventDefault();
+        if(handleSubmit(e)){
+
+          router.push(`/PatientList/${ReceptionistsRegNum}?P=PatientList`);
+        }}
+    
+    }
     >
       Add New Patient
     </button>
@@ -316,8 +325,11 @@ const New_patient = ({ReceptionistsRegNum}) => {
      className="min-w-[150px] py-3 px-4 text-sm font-semibold rounded text-white bg-blue-500 hover:bg-blue-600 focus:outline-none"
       onClick={(e) => {
         e.preventDefault();
-       
-        handleSubmit(e);
+        if(handleSubmit(e)){
+          
+          router.push(`/MakeApp/${ReceptionistsRegNum}?PatientRegNum=${valid_Patient_Reg_num}&name=${Name}`);
+        }
+        
       }}
       
      >

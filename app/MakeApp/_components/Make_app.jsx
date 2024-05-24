@@ -12,10 +12,12 @@ import DoctorsAPI from '@/app/_Utils/DoctorsAPI';
 import ReceptionAPI from '@/app/_Utils/ReceptionAPI';
 import AppointmentsAPI from "@/app/_Utils/AppointmentsAPI"
 import Swal from 'sweetalert2'
+import { useRouter } from 'next/navigation';
 
 const Make_app = ({receptionistRegNum}) => {
    
   console.log(receptionistRegNum)
+  const router  = useRouter();  
   const searchParams = useSearchParams();
   const PatientRegNum = searchParams.get('PatientRegNum')
   const PatientName = searchParams.get('name')
@@ -126,8 +128,8 @@ function convertTimeFormat(time) {
     { value: 'Anatomical Pathology', label: 'Anatomical Pathology' },
     { value: 'Anesthesiology', label: 'Anesthesiology' },
     { value: 'Cardiology', label: 'Cardiology' },
-    { value: 'Cardiovascular/Thoracic Surgery', label: 'Cardiovascular/Thoracic Surgery' },
-    { value: 'Clinical Immunology/Allergy', label: 'Clinical Immunology/Allergy' },
+    { value: 'Cardiovascular', label: 'Cardiovascular' },
+    { value: 'Clinical Immunology', label: 'Clinical Immunology' },
     { value: 'Critical Care Medicine', label: 'Critical Care Medicine' },
     { value: 'Dermatology', label: 'Dermatology' },
   ];
@@ -236,6 +238,8 @@ console.log(ReceptionistFilteredByRegistrationNumber)
         text: "Your account has been registered successfully",
         icon: "success"
       });
+      // router.push(`/ManageApp/${receptionistRegNum}?P=ManageApp`);
+      
     }).catch((error) => {
       console.log(error);
       Swal.close(); 
@@ -277,8 +281,8 @@ console.log(ReceptionistFilteredByRegistrationNumber)
             <label className="text-sm mb-2 block">Patient Name</label>
             <input
              required
-             name="email"
-             type="email" 
+             name="text"
+             type="text" 
              className="border-2 border-gray-300 bg-[#fff]-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-500" 
              disabled
              value={PatientName}
@@ -337,7 +341,15 @@ console.log(ReceptionistFilteredByRegistrationNumber)
     <button 
     type="button" 
     className="min-w-[150px] py-3 px-4 text-sm font-semibold rounded text-white bg-blue-500 hover:bg-blue-600 focus:outline-none"
-    onClick={(e)=> handleSubmit(e)}
+    onClick={(e)=>{
+      e.preventDefault();
+      // handleSubmit(e)
+      handleSubmit(e)
+        
+        router.push(`/ManageApp/${receptionistRegNum}?P=ManageApp`);
+      
+    }
+    } 
     >
       Book Appointment
     </button>
