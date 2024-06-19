@@ -58,6 +58,7 @@ export default function Manage_app({Appointments}) {
     if (result.isConfirmed) {
       AppointmentsAPI.deleteAppointment(Appid).then(
         response => {
+          window.location.reload();
           console.log(response.data)
           Swal.fire(
             "Deleted!",
