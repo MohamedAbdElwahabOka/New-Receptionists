@@ -4,9 +4,10 @@ import Sidebar from '../../_components/Sidebar'
 import Swal from 'sweetalert2'
 import React, { useEffect, useState } from 'react'
 import AppointmentsAPI from '@/app/_Utils/AppointmentsAPI';
-export default function page({params}){
+import withAuth from '../../_Utils/withAuth';
+function page({params}){
 
-  console.log(params.recepRegNum)
+  console.log(params.ReceptionistRegNum)
   const [Appointments, setAppointments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   
@@ -48,7 +49,7 @@ export default function page({params}){
     <div>
       <div className="flex h-screen">  
         <Sidebar 
-        reg={params.recepRegNum}
+        reg={params.ReceptionistRegNum}
         className="w-64 bg-gray-800 text-white px-4 py-8" />
         <div className="flex-grow bg-gray-100 p-8">
           {
@@ -71,3 +72,4 @@ export default function page({params}){
     </div>
     )
 }
+export default withAuth(page)

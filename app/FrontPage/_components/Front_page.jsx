@@ -21,10 +21,13 @@ export default function Front_page({ReceptionistRegNum}){
   // console.log(window.location.href)
 
   // console.log(ReceptionistRegNum)
-const logOut =() =>{
-  // Cookies.set("loggedin",false)
-  router.push('/')
-}
+  const logOut = () => {
+    const user = JSON.parse(Cookies.get(`user_${receptionistNameByRegistrationNumber[0]?.attributes?.reg_Num}`));
+    if (user) {
+      Cookies.remove(`user_${user?.attributes?.reg_Num}`);
+      router.push('/');
+    }
+  }
 
 
   const [receptionistNameByRegistrationNumber, setReceptionistNameByRegistrationNumber] = useState([]);
@@ -134,7 +137,7 @@ const logOut =() =>{
 
           <button
             className="flex flex-col items-center justify-center space-y-4 bg-red-500 shadow-lg rounded-xl p-6  hover:bg-red-100 transition-colors"
-            onClick={()=>logOut()}
+            onClick={() => logOut()}
           >
             <Image
               alt="Hospital"

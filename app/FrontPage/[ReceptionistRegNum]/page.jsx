@@ -1,5 +1,7 @@
+"use client"
 import Front_page from '../_components/Front_page';
-export default function page({params}){
+import withAuth from '../../_Utils/withAuth';
+function page({params}){
 
     return(
         <>
@@ -8,3 +10,4 @@ export default function page({params}){
         </>
     )
 }
+export default withAuth(page)

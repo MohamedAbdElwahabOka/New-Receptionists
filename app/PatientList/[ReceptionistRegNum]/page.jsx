@@ -4,7 +4,10 @@ import Sidebar from '../../_components/Sidebar'
 import PatientAPI from '../../_Utils/PatientAPI';
 import React, { useEffect, useState } from 'react'
 import Swal from 'sweetalert2'
-export default function page({params}){
+import withAuth from '../../_Utils/withAuth';
+
+
+function page({params}){
   console.log(params)
   const [Patients, setPatients] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -46,7 +49,7 @@ export default function page({params}){
     <div>
       <div className="flex h-screen">  
         <Sidebar 
-        reg={params.recepRegNum}
+        reg={params.ReceptionistRegNum}
         className="w-64 bg-gray-800 text-white px-4 py-8" />
         <div className="flex-grow bg-gray-100 p-8">
           {
@@ -59,7 +62,7 @@ export default function page({params}){
           
           :(
           
-          <Patient_list Patients={Patients} receptionistRegNum={params.recepRegNum}
+          <Patient_list Patients={Patients} receptionistRegNum={params.ReceptionistRegNum}
           
           
           />)}
@@ -68,3 +71,5 @@ export default function page({params}){
     </div>
     )
 }
+
+export default withAuth(page)
