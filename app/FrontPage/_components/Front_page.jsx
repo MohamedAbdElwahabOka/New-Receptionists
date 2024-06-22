@@ -17,18 +17,13 @@ import Cookies from "js-cookie";
 
 export default function Front_page({ReceptionistRegNum}){
 
+
+ 
   const router = useRouter();
   // console.log(window.location.href)
 
   // console.log(ReceptionistRegNum)
-  const logOut = () => {
-    const user = JSON.parse(Cookies.get(`user_${receptionistNameByRegistrationNumber[0]?.attributes?.reg_Num}`));
-    if (user) {
-      Cookies.remove(`user_${user?.attributes?.reg_Num}`);
-      router.push('/');
-    }
-  }
-
+ 
 
   const [receptionistNameByRegistrationNumber, setReceptionistNameByRegistrationNumber] = useState([]);
   useEffect(() => {
@@ -41,6 +36,18 @@ export default function Front_page({ReceptionistRegNum}){
       setReceptionistNameByRegistrationNumber(res.data.data);
     })
   }
+
+  const logOut = () => {
+    
+    if (receptionistNameByRegistrationNumber[0]?.attributes?.reg_Num) {
+      Cookies.remove(`user_${receptionistNameByRegistrationNumber[0]?.attributes?.reg_Num}`);
+      router.push('/');
+    }
+  }
+  console.log(receptionistNameByRegistrationNumber[0]?.attributes?.reg_Num)
+
+
+
 
 
     return(

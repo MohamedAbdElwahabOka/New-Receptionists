@@ -11,3 +11,4 @@ function page({params}){
     )
 }
 export default withAuth(page)
+// export default page

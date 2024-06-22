@@ -10,7 +10,8 @@ const withAuth = WrappedComponent => {
         const [isLoading, setIsLoading] = useState(true);
         const cookies = parseCookies();
         // const userCookie = Object.keys(cookies).find(cookie => cookie.startsWith('user_'));
-        const userCookie = Object.keys(cookies).find(cookie => cookie.startsWith(`user_${props.params?.ReceptionistRegNum}`));
+        // const userCookie = Object.keys(cookies).find(cookie => cookie.startsWith(`user_${props.params?.ReceptionistRegNum}`));
+        const userCookie = Object.keys(cookies).find(cookie => cookie.startsWith(`user_${props.params?.ReceptionistRegNum}`) && cookies[cookie] === 'true');
         // const userCookie = Cookies.get(`user_${props.params?.ReceptionistRegNum}`);
         console.log(props.params?.ReceptionistRegNum)
 

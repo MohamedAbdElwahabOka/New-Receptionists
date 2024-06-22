@@ -53,18 +53,11 @@ function page({params}){
         className="w-64 bg-gray-800 text-white px-4 py-8" />
         <div className="flex-grow bg-gray-100 p-8">
           {
-          
           isLoading ?(
-          
           <div className="flex items-center justify-center min-h-screen">
           <h1>Loading...</h1></div>)
-
-          
           :(
-          
           <Patient_list Patients={Patients} receptionistRegNum={params.ReceptionistRegNum}
-          
-          
           />)}
         </div>
       </div>

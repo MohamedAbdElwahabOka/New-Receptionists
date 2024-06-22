@@ -29,7 +29,9 @@ const Login = ({data}) => {
         text: "Invalid registration number or password.",
       });
     } else {
-      Cookies.set(`user_${user?.attributes?.reg_Num}`, JSON.stringify(user));
+      // Cookies.set(`user_${user?.attributes?.reg_Num}`, JSON.stringify(user));
+      Cookies.set(`user_${user?.attributes?.reg_Num}`,'true');
+      // Cookies.set('userLoggedOut', 'true');
       router.push(`/FrontPage/${user?.attributes?.reg_Num}`);
       Swal.fire(`Hello ${user?.attributes?.Name}!`, `Welcome to Telegy Care!`, `success`);
     }
